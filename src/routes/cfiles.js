@@ -26,8 +26,8 @@ router.post("", (req, res, next) => {
   });
 });
 
-router.put("/:id", (req, res, next) => {
-  const cfile = new CFile({
+router.patch("/:id", (req, res, next) => {
+  const cfile = new Cfile({
     _id: req.body.id,
     title: req.body.title,
     initials: req.body.initials,
@@ -39,9 +39,9 @@ router.put("/:id", (req, res, next) => {
     ethnicity: req.body.ethnicity,
     maritalStatus: req.body.maritalStatus,
     language: req.body.language,
-    religion: req.body.language,
+    religion: req.body.religion,
   });
-  CFile.updateOne({ _id: req.params.id }, cfile).then(result => {
+  Cfile.updateOne({ _id: req.params.id }, cfile).then(result => {
     res.status(200).json({ message: "File Updated successfully!" });
   });
 });
