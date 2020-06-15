@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -6,11 +7,13 @@ const cors = require('cors');
 const cfileRoutes = require("./routes/cfiles");
 const app = express();
 
+const dbUrl = process.env.DB_URL || "mongodb://localhost/clinic-workflow"
+
 mongoose.set('useNewUrlParser', true);
   mongoose.set('useFindAndModify', false);
   mongoose.set('useCreateIndex', true);
   mongoose.set('useUnifiedTopology', true);
-mongoose.connect("mongodb://localhost/clinic-workflow", {useNewUrlParser: true})
+mongoose.connect(dbUrl, {useNewUrlParser: true})
 .then(() => {
     console.log('Connected to Mongo Database succesfully')
 })
