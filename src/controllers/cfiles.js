@@ -12,7 +12,8 @@ exports.createCfile = (req, res, next) => {
       ethnicity: req.body.ethnicity,
       maritalStatus: req.body.maritalStatus,
       language: req.body.language,
-      religion: req.body.religion
+      religion: req.body.religion,
+      notes: req.body.notes
     });
     cfile.save().then(createdCfile => {
       res.status(201).json({
@@ -40,6 +41,7 @@ exports.createCfile = (req, res, next) => {
       maritalStatus: req.body.maritalStatus,
       language: req.body.language,
       religion: req.body.religion,
+      notes: req.body.notes
     });
     Cfile.updateOne({ _id: req.params.id }, cfile).then(result => {
       if(result.n > 0) {
