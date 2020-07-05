@@ -12,6 +12,7 @@ const postSchema = mongoose.Schema({
   maritalStatus: { type: String, required: true },
   language: { type: String, required: true },
   religion: { type: String, required: true },
+  income: {type: String, required: true},
   notes: { type: String, required: false}
 });
 

@@ -13,8 +13,11 @@ exports.createCfile = (req, res, next) => {
       maritalStatus: req.body.maritalStatus,
       language: req.body.language,
       religion: req.body.religion,
+      income: req.body.income,
       notes: req.body.notes
     });
+    console.log('cfile-->', cfile);
+    
     cfile.save().then(createdCfile => {
       res.status(201).json({
         message: "File added successfully",
@@ -41,6 +44,7 @@ exports.createCfile = (req, res, next) => {
       maritalStatus: req.body.maritalStatus,
       language: req.body.language,
       religion: req.body.religion,
+      income: req.body.income,
       notes: req.body.notes
     });
     Cfile.updateOne({ _id: req.params.id }, cfile).then(result => {
