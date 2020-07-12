@@ -13,7 +13,12 @@ const postSchema = mongoose.Schema({
   language: { type: String, required: true },
   religion: { type: String, required: true },
   income: {type: String, required: true},
-  notes: { type: String, required: false}
+  note: [
+    {
+    date: { type: Date },
+    diagnosis: { type: String }
+  }
+]
 });
 
 module.exports = mongoose.model('Cfile', postSchema);

@@ -2,6 +2,7 @@ const Cfile = require("../models/cfile");
 
 exports.createCfile = (req, res, next) => {
     const cfile = new Cfile({
+      _id: req.body.idNumber,
       title: req.body.title,
       initials: req.body.initials,
       fullNames: req.body.fullNames,
@@ -28,6 +29,37 @@ exports.createCfile = (req, res, next) => {
         message: 'Technical error occured while adding file!'
       });
     });
+  }
+
+  exports.createConsultation = (req, res, next) => {
+    
+    const cfile = new Cfile({
+      notes: req.body.notes.diagnosis
+    });
+    Cfile.updateOne(
+      { 
+        _id: req.params.id
+      },
+        { 
+          $addToSet: 
+          { 
+            note: 
+            { 
+          date: new Date(), 
+          diagnosis: cfile
+        }
+      }
+    }).then(result => {
+      if(result.n > 0) {
+        res.status(200).json({ message: "File Updated successfully!" });
+      } else {
+        res.status(304).json({ message: 'File Not updated'})
+      }
+    }).catch(error => {
+      res.status(500).json({
+        message: 'Techncical error occured while updating file!'
+      });
+    })
   }
 
   exports.updateCfile = (req, res, next) => {
@@ -58,6 +90,37 @@ exports.createCfile = (req, res, next) => {
         message: 'Techncical error occured while updating file!'
       });
     });
+  }
+
+  
+  exports.updateConsultation = (req, res, next) => {
+    
+    const cfile = new Cfile({
+      notes: req.body.notes.diagnosis
+    });
+    Cfile.updateOne(
+      { 
+        diagnosis: cfile
+      },
+        { 
+          $set: 
+          { 
+            note: 
+            { 
+          diagnosis: cfile
+        }
+      }
+    }).then(result => {
+      if(result.n > 0) {
+        res.status(200).json({ message: "File Updated successfully!" });
+      } else {
+        res.status(304).json({ message: 'File Not updated'})
+      }
+    }).catch(error => {
+      res.status(500).json({
+        message: 'Techncical error occured while updating file!'
+      });
+    })
   }
 
   exports.getCfiles = (req, res, next) => {
@@ -119,3 +182,5 @@ exports.createCfile = (req, res, next) => {
       });
     });
   }
+
+  
