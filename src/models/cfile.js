@@ -15,7 +15,7 @@ const postSchema = mongoose.Schema({
   income: {type: String, required: true},
   note: [
     {
-    date: { type: Date },
+    date: { type: Date | String },
     diagnosis: { type: String }
   }
 ]

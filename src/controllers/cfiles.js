@@ -34,19 +34,23 @@ exports.createCfile = (req, res, next) => {
   exports.createConsultation = (req, res, next) => {
     
     const cfile = new Cfile({
-      notes: req.body.notes.diagnosis
+      notes: req.body.note
     });
+    console.log('ID-->', req.params.id);
+    
+    console.log('cfile-->',cfile);
     Cfile.updateOne(
       { 
-        _id: req.params.id
+        // _id: req.params.id
+        idNumber: req.params.id
       },
         { 
-          $addToSet: 
+          $push: 
           { 
             note: 
             { 
           date: new Date(), 
-          diagnosis: cfile
+          diagnosis: req.body.note
         }
       }
     }).then(result => {
@@ -96,8 +100,9 @@ exports.createCfile = (req, res, next) => {
   exports.updateConsultation = (req, res, next) => {
     
     const cfile = new Cfile({
-      notes: req.body.notes.diagnosis
+      notes: req.body.notes
     });
+    
     Cfile.updateOne(
       { 
         diagnosis: cfile
@@ -133,6 +138,21 @@ exports.createCfile = (req, res, next) => {
       res.status(500).json({
         message: 'Technical error occured fetching files!'
       })
+    });
+  }
+
+  exports.getPatientConsultations = (req, res, next) => {
+
+    Cfile.find({idNumber: req.params.id}, { idNumber: 1, note: 1 }).then(cfile => {
+      if (cfile) { 
+        res.status(200).json(cfile);
+      } else {
+        res.status(404).json({ message: "File not found!" });
+      }
+    }).catch(error => {
+      res.status(500).json({
+        message: 'Technical error Occured while searching for file!'
+      });
     });
   }
 
