@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-const postSchema = mongoose.Schema({
+const cFileSchema = mongoose.Schema({
+  _id: { type: String, required: true},
   title: { type: String, required: true },
   initials: { type: String, required: true },
   fullNames: { type: String, required: true },
@@ -13,12 +14,13 @@ const postSchema = mongoose.Schema({
   language: { type: String, required: true },
   religion: { type: String, required: true },
   income: {type: String, required: true},
-  note: [
+  notes: [
     {
-    date: { type: Date | String },
-    diagnosis: { type: String }
+    date: { type: String },
+    diagnosis: { type: String, required: true },
+    prescription: { type: String, required: true }
   }
 ]
 });
 
-module.exports = mongoose.model('Cfile', postSchema);
+module.exports = mongoose.model('Cfile', cFileSchema);

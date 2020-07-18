@@ -2,7 +2,7 @@ const Cfile = require("../models/cfile");
 
 exports.createCfile = (req, res, next) => {
     const cfile = new Cfile({
-      _id: req.body.idNumber,
+      _id: parseInt(req.body.idNumber),
       title: req.body.title,
       initials: req.body.initials,
       fullNames: req.body.fullNames,
@@ -15,7 +15,13 @@ exports.createCfile = (req, res, next) => {
       language: req.body.language,
       religion: req.body.religion,
       income: req.body.income,
-      notes: req.body.notes
+      notes: [ 
+      //   {
+      //   date: new Date(),
+      //   diagnosis: req.body.notes,
+      //   medication: "Mub"
+      // } 
+    ]
     });
     console.log('cfile-->', cfile);
     
@@ -26,19 +32,18 @@ exports.createCfile = (req, res, next) => {
       });
     }).catch(error => {
       res.status(500).json({
-        message: 'Technical error occured while adding file!'
+        message: 'Technical error occured while adding file!',
+        error: error
       });
     });
   }
 
   exports.createConsultation = (req, res, next) => {
     
-    const cfile = new Cfile({
-      notes: req.body.note
-    });
     console.log('ID-->', req.params.id);
+    console.log('Diagnosis-->', req.body.diagnosis);
+    console.log('prescr-->', req.body.prescription);
     
-    console.log('cfile-->',cfile);
     Cfile.updateOne(
       { 
         // _id: req.params.id
@@ -47,10 +52,11 @@ exports.createCfile = (req, res, next) => {
         { 
           $push: 
           { 
-            note: 
-            { 
-          date: new Date(), 
-          diagnosis: req.body.note
+            notes: 
+            {
+          date: new Date(),
+          diagnosis: req.body.diagnosis,
+          prescription: req.body.prescription,
         }
       }
     }).then(result => {
@@ -81,7 +87,7 @@ exports.createCfile = (req, res, next) => {
       language: req.body.language,
       religion: req.body.religion,
       income: req.body.income,
-      notes: req.body.notes
+      // notes: req.body.notes
     });
     Cfile.updateOne({ _id: req.params.id }, cfile).then(result => {
       if(result.n > 0) {
@@ -110,7 +116,7 @@ exports.createCfile = (req, res, next) => {
         { 
           $set: 
           { 
-            note: 
+            notes: 
             { 
           diagnosis: cfile
         }
@@ -143,7 +149,7 @@ exports.createCfile = (req, res, next) => {
 
   exports.getPatientConsultations = (req, res, next) => {
 
-    Cfile.find({idNumber: req.params.id}, { idNumber: 1, note: 1 }).then(cfile => {
+    Cfile.find({idNumber: req.params.id}, { idNumber: 1, notes: 1 }).then(cfile => {
       if (cfile) { 
         res.status(200).json(cfile);
       } else {
@@ -154,6 +160,22 @@ exports.createCfile = (req, res, next) => {
         message: 'Technical error Occured while searching for file!'
       });
     });
+  }
+
+  exports.getConsultation = (req, res, next) => {
+    console.log("TO DEV");
+    // Cfile.findById(req.params.id).then(consultation => {
+    //   if (consultation) {
+    //     res.status(200).json(consultation);
+    //   } else {
+    //     res.status(404).json({ message: "File not found!" });
+    //   }
+    // })
+    // .catch(error => {
+    //   res.status(500).json({
+    //     message: 'Technical error occured retrieving file!'
+    //   });
+    // });
   }
 
   exports.searchPatient = (req, res, next) => {

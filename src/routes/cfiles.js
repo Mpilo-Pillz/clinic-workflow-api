@@ -14,5 +14,6 @@ router.get("/:id", CfileController.getCfile);
 router.delete("/:id", CfileController.deleteCfile);
 
 router.get("/:id/consultations", CfileController.getPatientConsultations);
+router.get("/:id/consultation", CfileController.getConsultation);
 
 module.exports = router;
