@@ -149,7 +149,7 @@ exports.createCfile = (req, res, next) => {
 
   exports.getPatientConsultations = (req, res, next) => {
 
-    Cfile.find({idNumber: req.params.id}, { idNumber: 1, notes: 1 }).then(cfile => {
+    Cfile.find({idNumber: req.params.id}, { idNumber: 1, notes: 1, title: 1, initials: 1, lastName: 1 }).then(cfile => {
       if (cfile) { 
         res.status(200).json(cfile);
       } else {
