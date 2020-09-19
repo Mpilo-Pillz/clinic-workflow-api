@@ -18,7 +18,8 @@ const cFileSchema = mongoose.Schema({
     {
     date: { type: String },
     diagnosis: { type: String, required: true },
-    prescription: { type: String, required: true }
+    prescription: { type: String, required: true },
+    imagePath: { type: String, required: true}
   }
 ]
 });

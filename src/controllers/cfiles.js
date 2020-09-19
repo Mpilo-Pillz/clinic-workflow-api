@@ -39,10 +39,11 @@ exports.createCfile = (req, res, next) => {
   }
 
   exports.createConsultation = (req, res, next) => {
-    
+    const url = `${req.protocol}://${req.get('host')}`;
     console.log('ID-->', req.params.id);
     console.log('Diagnosis-->', req.body.diagnosis);
     console.log('prescr-->', req.body.prescription);
+    console.log('image-->', req.body.imagePath);
     
     Cfile.updateOne(
       { 
@@ -57,6 +58,8 @@ exports.createCfile = (req, res, next) => {
           date: new Date(),
           diagnosis: req.body.diagnosis,
           prescription: req.body.prescription,
+          imagePath: req.body.imagePath,
+          // imagePath: `${url}/images/${req.file.filename}`
         }
       }
     }).then(result => {

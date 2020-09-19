@@ -30,7 +30,8 @@ const storage = multer.diskStorage({
 });
 
 router.post("", CfileController.createCfile);
-router.patch("/new/consultation/:id", multer(storage).single("image"), CfileController.createConsultation);
+// router.patch("/new/consultation/:id", multer({storage: storage}).single("image"), CfileController.createConsultation);
+router.patch("/new/consultation/:id", CfileController.createConsultation);
 router.patch("/:id", CfileController.updateCfile);
 router.patch("/update/consultation/:id", CfileController.updateConsultation);
 router.get("", CfileController.getCfiles);
