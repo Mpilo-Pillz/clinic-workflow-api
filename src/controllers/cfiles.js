@@ -1,4 +1,5 @@
 const Cfile = require("../models/cfile");
+const removeHttp = require("../../libraries/removeHttp");
 
 exports.createCfile = (req, res, next) => {
     const cfile = new Cfile({
@@ -44,7 +45,8 @@ exports.createCfile = (req, res, next) => {
     console.log('Diagnosis-->', req.body.diagnosis);
     console.log('prescr-->', req.body.prescription);
     console.log('image-->', req.body.imagePath);
-    
+    console.log(removeHttp(req.body.imagePath));
+    let imagePathUrl = removeHttp(req.body.imagePath);
     Cfile.updateOne(
       { 
         // _id: req.params.id
@@ -58,7 +60,8 @@ exports.createCfile = (req, res, next) => {
           date: new Date(),
           diagnosis: req.body.diagnosis,
           prescription: req.body.prescription,
-          imagePath: req.body.imagePath,
+          imagePath: imagePathUrl,
+          // imagePath: req.body.imagePath,
           // imagePath: `${url}/images/${req.file.filename}`
         }
       }
